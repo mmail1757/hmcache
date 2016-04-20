@@ -34,6 +34,7 @@ public class TestCache {
         testCleanupMemoryCache();
         testRefreshExpirationInMemoryCache();
         testMemoryCacheExpiration();
+        testDiskCache();
     }
 
     private static void testMemoryCache() {
@@ -63,6 +64,15 @@ public class TestCache {
         Thread.sleep(2000);
         assert cp.get(1) == null;
     }
+
+    private static void testDiskCache() throws InterruptedException {
+
+        for (int i = 0; i < 15; i++) {
+            cp.put(i, "object" + i);
+        }
+        assert "object14".equals(cp.get(14));
+    }
+
 
 
 
