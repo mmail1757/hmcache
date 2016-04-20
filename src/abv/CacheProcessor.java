@@ -1,8 +1,16 @@
 package abv;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+
+/*
+The cache has next logic - we have a cache object with an expiration time. When we put an object in memory cache
+we are setting expiration time accordingly our configuration. If the memory cache is full we put object in the disk cache
+if it turns on. Each second auxiliary thread checks the memory cache and removes expired objects. Also each timesBeforeCleanup
+times it checks disk cache and cleans it if unsuccessful counts of tries to write objects in this cache more than
+size of disk cache * diskCacheCleanupFactor / 100. In this case disk cache costs as invalid and resets.
+ */
 
 public class CacheProcessor<K, V> {
 

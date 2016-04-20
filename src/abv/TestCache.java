@@ -1,6 +1,8 @@
 package abv;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -35,6 +37,7 @@ public class TestCache {
         testRefreshExpirationInMemoryCache();
         testMemoryCacheExpiration();
         testDiskCache();
+        testDiskCacheCleanup();
     }
 
     private static void testMemoryCache() {
@@ -73,7 +76,12 @@ public class TestCache {
         assert "object14".equals(cp.get(14));
     }
 
+    private static void testDiskCacheCleanup() throws InterruptedException {
 
-
-
+        for (int i = 0; i < 30; i++) {
+            cp.put(i, "object" + i);
+        }
+        Thread.sleep(15000);
+        assert cp.get(29) == null;
+    }
 }
